@@ -67,21 +67,40 @@ var bot_options = {
     clientId: process.env.clientId,
     clientSecret: process.env.clientSecret,
     // debug: true,
-    scopes: ['bot'],
+    scopes: ['bot', 'commands'],
     studio_token: process.env.studio_token,
     studio_command_uri: process.env.studio_command_uri
 };
+
+debug('process', process.env);
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
 if (process.env.MONGO_URI) {
     var mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGO_URI});
     bot_options.storage = mongoStorage;
+} else if (process.env.FIREBASE_URI) {
+    const admin = require('firebase-admin');
+    var serviceAccount = require(process.env.FIREBASE_URI);
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+    var db = admin.firestore();
+    var config = {
+        apiKey: "AIzaSyBKxV77gLvWSU8A44mak4m5-IML_Ixg4nY",
+        authDomain: "eod-bot-local.firebaseapp.com",
+        databaseURL: "https://eod-bot-local.firebaseio.com",
+        projectId: "eod-bot-local",
+        storageBucket: "eod-bot-local.appspot.com",
+        messagingSenderId: "34337095436"
+    };
+    var firebaseStorage = require('botkit-storage-firestore')({database: db});
+    bot_options.storage = firebaseStorage;
 } else {
-    bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
+    // bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
 }
 
-// Create the Botkit controller, which controls all instances of the bot.
+// Create the Botkit controller, which controls all instances of the bot.t
 var controller = Botkit.slackbot(bot_options);
 
 controller.startTicking();
