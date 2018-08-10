@@ -94,7 +94,10 @@ if (process.env.MONGO_URI) {
         storageBucket: "eod-bot-local.appspot.com",
         messagingSenderId: "34337095436"
     };
-    var firebaseStorage = require('botkit-storage-firestore')({database: db});
+    var firebaseStorage = require('botkit-storage-firestore')({
+        methods: ['eods'],
+        database: db
+    });
     bot_options.storage = firebaseStorage;
 } else {
     // bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
