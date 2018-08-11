@@ -1,3 +1,39 @@
+# Eod-Bot
+
+This is oauth login & interactive callback service for pingpad.
+
+## Local Setup
+* Checkout this repo
+* Install docker from [here](https://store.docker.com/editions/community/docker-ce-desktop-mac).
+* Run `$ docker build -t="login" .`
+* Run `docker run -t -i -p 8080:8080 login /usr/local/bin/npm start`
+*
+
+## To deploy
+gcloud preview app deploy --stop-previous-version --version 2
+
+Where version can be dev or integer.
+
+### Deploy Cron
+```
+gcloud app deploy --stop-previous-version --version $CIRCLE_BUILD_NUM --quiet
+```
+
+## Local firebsae setup
+
+* Download your firebase dump from firebase console
+* Install firebase server `$ npm install -g firebase-server`
+* Run following command.
+```
+$ DEBUG=firebase-server* firebase-server -p 5555 -a 0.0.0.0 -f ./path/to/data.json
+```
+* Update you `/etc/hosts` to
+```
+127.0.0.1       localhost.firebaseio.com
+```
+* Update your local config to point firebase url to localhost.firebaseio.com:5555 and secret to ''
+
+
 # Botkit Starter Kit for Slack Bots
 
 This repo contains everything you need to get started building a Slack bot with [Botkit](https://botkit.ai) and [Botkit Studio](https://botkit.ai).
