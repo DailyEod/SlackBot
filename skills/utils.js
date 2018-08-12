@@ -6,7 +6,7 @@ module.exports = function(controller, bot, message) {
 
     let withUser = function (user, cb) {
         controller.storage.users.get(message.user, function(err, user) {
-            if (user) {
+            if (user && user.profile) {
                 cb(null, user);
             } else {
                 bot.api.users.info({
