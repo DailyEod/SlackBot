@@ -73,7 +73,7 @@ var bot_options = {
 };
 
 debug('process', process.env);
-console.log('process', process.env);
+// console.log('process', process.env);
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
@@ -107,9 +107,6 @@ controller.startTicking();
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
 if (!process.env.clientId || !process.env.clientSecret) {
-    var redirect_uri = process.env.redirectUri || 'http://localhost:3001/signin';
-    var redirect_app_uri = process.env.redirectAppUri || 'http://localhost:3000/';
-    var client_id = process.env.clientId ;
 
     // Load in some helpers that make running Botkit on Glitch.com better
     require(__dirname + '/components/plugin_glitch.js')(controller);
@@ -128,7 +125,10 @@ if (!process.env.clientId || !process.env.clientSecret) {
 
     var where_its_at = 'https://' + process.env.PROJECT_DOMAIN + '.glitch.me/';
     console.log('WARNING: This application is not fully configured to work with Slack. Please see instructions at ' + where_its_at);
-}else {
+} else {
+    var redirect_uri = process.env.redirectUri || 'http://localhost:3001/signin';
+    var redirect_app_uri = process.env.redirectAppUri || 'http://localhost:3000/';
+    var client_id = process.env.clientId || '';
 
     webserver.get('/', function(req, res){
         res.render('index', {
