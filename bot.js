@@ -82,7 +82,7 @@ if (process.env.MONGO_URI) {
 } else if (process.env.firebaseKey) {
     const admin = require('firebase-admin');
     var serviceAccount = JSON.parse(process.env.firebaseKey);
-    admin.initializeApp({
+    admin.initializeApp({  
         credential: admin.credential.cert(serviceAccount)
     });
     const firestore = admin.firestore();
