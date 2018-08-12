@@ -25,7 +25,7 @@ module.exports = function(controller, bot, message) {
                 });
             }
         });
-    };
+    }; 
 
     let withAllUsers = function (team_id, cb) {
         controller.storage.users.ref.where(
