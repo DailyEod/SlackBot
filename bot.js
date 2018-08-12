@@ -107,6 +107,9 @@ controller.startTicking();
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
 if (!process.env.clientId || !process.env.clientSecret) {
+    var redirect_uri = process.env.redirectUri || 'http://localhost:3001/signin';
+    var redirect_app_uri = process.env.redirectAppUri || 'http://localhost:3000/';
+    var client_id = process.env.clientId ;
 
     // Load in some helpers that make running Botkit on Glitch.com better
     require(__dirname + '/components/plugin_glitch.js')(controller);
@@ -117,6 +120,8 @@ if (!process.env.clientId || !process.env.clientSecret) {
             domain: req.get('host'),
             protocol: req.protocol,
             glitch_domain:  process.env.PROJECT_DOMAIN,
+            redirect_uri: redirect_uri,
+            redirect_app_uri: redirect_app_uri,
             layout: 'layouts/default'
         });
     });
@@ -130,6 +135,8 @@ if (!process.env.clientId || !process.env.clientSecret) {
             domain: req.get('host'),
             protocol: req.protocol,
             glitch_domain:  process.env.PROJECT_DOMAIN,
+            redirect_uri: redirect_uri,
+            redirect_app_uri: redirect_app_uri,
             layout: 'layouts/default'
         });
     });
@@ -139,6 +146,9 @@ if (!process.env.clientId || !process.env.clientSecret) {
             domain: req.get('host'),
             protocol: req.protocol,
             glitch_domain:  process.env.PROJECT_DOMAIN,
+            redirect_uri: redirect_uri,
+            redirect_app_uri: redirect_app_uri,
+            client_id: client_id,
             layout: 'layouts/default'
         });
     });
