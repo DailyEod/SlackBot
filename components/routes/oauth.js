@@ -68,11 +68,11 @@ module.exports = function(webserver, controller) {
 
             // we need to use the Slack API, so spawn a generic bot with no token
             var slackapi = controller.spawn({});
-
+            var redirect_uri = process.env.redirectUri || 'http://localhost:3001/signin';
             var opts = {
                 client_id: controller.config.clientId,
                 client_secret: controller.config.clientSecret,
-                redirect_uri: 'http://localhost:3001/signin',
+                redirect_uri: redirect_uri,
                 code: code
             };
 
@@ -125,14 +125,14 @@ module.exports = function(webserver, controller) {
                             debug('Error: could not save team record:', err);
                         }
                     });
-
+                    var redirect_app_uri = process.env.redirectAppUri || 'http://localhost:3000/';
                     admin.auth().createCustomToken(uid, additionalClaims)
                         .then(function(customToken) {
                             debug('customToken', customToken);
                             // Send token back to client
                             // res.cookie('team_id', auth.team_id);
                             // res.cookie('bot_user_id', auth.bot.bot_user_id);
-                            res.redirect('https://eodstatusbot.firebaseapp.com/' + '#access_token=' + customToken + '&state=' + state); 
+                            res.redirect(redirect_app_uri + '#access_token=' + customToken + '&state=' + state); 
                             res.end();
                             return;
                         })
