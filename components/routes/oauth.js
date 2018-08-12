@@ -132,7 +132,7 @@ module.exports = function(webserver, controller) {
                             // Send token back to client
                             // res.cookie('team_id', auth.team_id);
                             // res.cookie('bot_user_id', auth.bot.bot_user_id);
-                            res.redirect('https://eodstatusbot.firebaseapp.com/' + '#access_token=' + customToken + '&state=' + state);
+                            res.redirect('https://eodstatusbot.firebaseapp.com/' + '#access_token=' + customToken + '&state=' + state); 
                             res.end();
                             return;
                         })
