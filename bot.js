@@ -79,9 +79,9 @@ debug('process', process.env);
 if (process.env.MONGO_URI) {
     var mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGO_URI});
     bot_options.storage = mongoStorage;
-} else if (process.env.FIREBASE_URI) {
+} else if (process.env.firebaseKey) {
     const admin = require('firebase-admin');
-    var serviceAccount = require(process.env.FIREBASE_URI);
+    var serviceAccount = JSON.parse(process.env.firebaseKey);
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });
